@@ -1,8 +1,22 @@
 import { Item } from "../types/Item";
 
 const getApiUrl = () => {
-  // Trim trailing slash if present
-  let url = process.env.NEXT_PUBLIC_API_URL || "";
+  let url = "";
+  if (typeof window !== "undefined") {
+    const params = new URLSearchParams(window.location.search);
+    const queryUrl = params.get("api_url");
+    if (queryUrl) {
+      localStorage.setItem("dialdeploy_api_url", queryUrl);
+      url = queryUrl;
+    } else {
+      url = localStorage.getItem("dialdeploy_api_url") || "";
+    }
+  }
+
+  if (!url) {
+    url = process.env.NEXT_PUBLIC_API_URL || "";
+  }
+
   if (url.endsWith("/")) {
     url = url.slice(0, -1);
   }
