@@ -1,15 +1,17 @@
 import { Item } from "../types/Item";
+import { APP_NAME } from "../config/brand";
 
 const getApiUrl = () => {
   let url = "";
   if (typeof window !== "undefined") {
     const params = new URLSearchParams(window.location.search);
     const queryUrl = params.get("api_url");
+    const storageKey = `dialdeploy_api_url_${APP_NAME}`;
     if (queryUrl) {
-      localStorage.setItem("dialdeploy_api_url", queryUrl);
+      localStorage.setItem(storageKey, queryUrl);
       url = queryUrl;
     } else {
-      url = localStorage.getItem("dialdeploy_api_url") || "";
+      url = localStorage.getItem(storageKey) || "";
     }
   }
 
